@@ -565,9 +565,9 @@
     const salesList = ref([])
     // const loading = ref(false)
 
-    const onSelectSales = (option) => {
-        selectedSales.value = option
-        console.log('Sales dipilih:', option)
+    const onSelectSales = (id) => {
+        selectedSales.value = id
+        console.log('Sales dipilih:', id)
     }
 
     // ===== FUNGSI CARI SALES (DEBOUNCE) =====
@@ -605,8 +605,14 @@
 
     // ===== FUNGSI SUBMIT =====
     const handleSubmit = async () => {
-        form.toko_id = selectedToko.value
+        form.toko_id = selectedToko.value // assign value dari multiselect dan assign ke field toko_id
+        form.sales_id = selectedSales.value // assign value dari multiselect dan assign ke field sales_id
+        form.total = totalPenjualan.value // <-- total penjualan sebelum diskon
+        form.total_netto = totalNetoPenjualan.value // <-- assign neto bulat hasil roundoff
+        
+        console.log(form)
 
+        submitting.value = true // proses submit sedang berjalan, digunakan untuk Men-disable tombol submit agar user tidak mengklik berkali-kali.
         successMessage.value = ''
         errorMessage.value = ''
 
@@ -632,14 +638,6 @@
             return
         }
 
-        submitting.value = true // proses submit sedang berjalan, digunakan untuk Men-disable tombol submit agar user tidak mengklik berkali-kali.
-        form.toko_id = selectedToko.value // assign value dari multiselect dan assign ke field toko_id
-        form.sales_id = selectedSales.value // assign value dari multiselect dan assign ke field sales_id
-        form.total = totalPenjualan.value // <-- total penjualan sebelum diskon
-        form.total_netto = totalNetoPenjualan.value // <-- assign neto bulat hasil roundoff
-        
-        console.log(form)
-        
         try {
             await axios.post('/api/penjualan', form)
             successMessage.value = 'Penjualan berhasil disimpan!'

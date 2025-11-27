@@ -76,6 +76,7 @@ func (s *servicePenjualan) CreatePenjualan(req dto.CreatePenjualanRequest) (dto.
 		TglPenjualan:  tglJual,
 		TglJatuhTempo: tglJatuhTempo,
 		TokoID:        req.TokoID,
+		SalesID:       req.SalesID,
 		Total:         req.Total,
 		TotalNetto:    req.TotalNetto,
 		Keterangan:    req.Keterangan,
@@ -179,10 +180,11 @@ func (s *servicePenjualan) CreatePenjualan(req dto.CreatePenjualanRequest) (dto.
 		TglPenjualan: penjualan.TglPenjualan.Format("2006-01-02"),
 		TokoID:       penjualan.TokoID,
 		TokoNama:     newPenjualan.Toko.Nama,
+		SalesID:      penjualan.SalesID,
+		SalesNama:    penjualan.Sales.Nama,
 		Total:        penjualan.Total,
 		Keterangan:   penjualan.Keterangan,
 		Items:        itemsDTO,
-		//TokoNama:   penjualan.Toko.Nama,
 	}
 
 	// ==============================
